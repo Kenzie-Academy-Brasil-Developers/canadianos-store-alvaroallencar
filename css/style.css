@@ -1,0 +1,87 @@
+html,
+body,
+figure,
+div,
+input,
+textarea,
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+ul {
+    margin: 0;
+    padding: 0;
+    border: none;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+    list-style: none;
+}
+
+body {
+    font-size: 16px;
+    background-color: #FFFFFF;
+}
+
+figcaption {
+    display: none;
+}
+
+.menu {
+    width: 100%;
+    background-color: #FFFFFF;
+    box-shadow: 0px 4px 30px -10px rgba(0, 0, 0, 0.25);
+}
+
+.container {
+    max-width: 1370px;
+    margin: 0 auto;
+}
+
+.menu-column {
+    min-height: 70px;
+    display: flex;
+    margin: 0 auto;
+    align-items: center;
+    align-content: center;
+    justify-content: space-between;
+    background-color: #FFFFFF;
+}
+
+.menu-nav ul {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    list-style: none;
+    gap: 20px;
+}
+
+.logo {
+    text-align: center;
+    font-size: 30px;
+    color: #292929;
+    font-weight: 700;
+    line-height: 24px;
+}
+
+.link.all {
+    font-weight: 600;
+}
+
+.link {
+    text-decoration: none;
+    color: #242424;
+    font-weight: 400;
+    font-size: 16px;
+}
+
+.link:hover {
+    color: #535353;
+    cursor: pointer;
+}
+
+.link:active {
+    color: #242424;
+}
