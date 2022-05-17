@@ -18,12 +18,15 @@ button {
     padding: 0;
     border: none;
     box-sizing: border-box;
+    text-decoration: none;
     font-family: 'Inter', sans-serif;
     list-style: none;
     background-color: #FFFFFF;
 }
 
 body {
+    max-width: 1370px;
+    margin: auto;
     font-size: 16px;
     background-color: #FFFFFF;
     display: flex;
@@ -36,31 +39,34 @@ figcaption {
 }
 
 .menu {
-    width: 100%;
+    max-width: 1370px;
+    margin: auto;
     background-color: #FFFFFF;
     box-shadow: 0px 4px 30px -10px rgba(0, 0, 0, 0.25);
-}
-
-.menu-container {
-
-    max-width: 1370px;
-    margin: 0 auto;
-
 }
 
 .menu-column {
     min-height: 70px;
     display: flex;
-    margin: 0 auto;
+    width: 1370px;
     align-items: center;
     align-content: center;
     justify-content: space-between;
     background-color: #FFFFFF;
 }
 
+.logo-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 70px;
+}
+
 .menu-nav ul {
+    min-height: 70px;
     display: flex;
     justify-content: center;
+    align-items: center;
     flex-wrap: wrap;
     list-style: none;
     gap: 20px;
@@ -100,8 +106,11 @@ figcaption {
 }
 
 .content {
+    
     display: flex;
-    gap: 55px;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 60px;
 }
 
 .content-first-column {
@@ -139,6 +148,7 @@ figcaption {
     align-items: center;
     background-color: #F5F5F5;
 }
+
 .product-description {
     display: flex;
     flex-direction: column;
@@ -182,7 +192,7 @@ figcaption {
     width: 269px;
     height: 72px;
     font-weight: 400;
-    font-size: 14px;
+    font-size: 16px;
     line-height: 24px;
     color: #242424;
 }
@@ -193,7 +203,7 @@ figcaption {
     height: 16px;
     font-style: normal;
     font-weight: 600;
-    font-size: 14px;
+    font-size: 16px;
     line-height: 16px;
     color: #2E245E;
 }
@@ -202,7 +212,7 @@ figcaption {
     font-style: normal;
     text-decoration: none;
     font-weight: 500;
-    font-size: 14px;
+    font-size: 16px;
     line-height: 16px;
     color: #242424;
 }
@@ -220,12 +230,99 @@ figcaption {
 
 
 .search {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+}
+
+.search-imput {
+    padding: 14px 17px;
+    width: 246px;
     height: 50px;
-    border: 1px solid red;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;
+    color: #242424;
+    background-color: #F5F5F5;
+    border: 3px solid #F5F5F5;
+}
+
+.search-imput:hover {
+    border: 3px solid #242424;
+}
+
+.search-button {
+    width: 96px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 16px;
+    border-radius: 2px;
+    color: #FFFFFF;
+    background-color: #37268C;
+    cursor: pointer;
+}
+
+.search-button:hover {
+    background-color: #4e3ea1;
+}
+
+.search-button:active {
+    background-color: #37268C;
 }
 
 .cart {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.cart-title {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 24px;
+    color: #FFFFFF;
     width: 347px;
-    height: 264px;
-    border: 1px solid red;
+    height: 50px;
+    background-color: #37268C;
+}
+
+.cart-items {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-width: 347px;
+    min-height: 214px;
+    gap: 10px;
+    background-color: #F5F5F5;
+}
+
+.empty-cart {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 22px;
+    line-height: 24px;
+    color: #292929;
+    background-color: #F5F5F5;
+}
+
+.add-items {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;
+    background-color: #F5F5F5;
 }
