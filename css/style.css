@@ -154,7 +154,7 @@ figcaption {
     gap: 40px;
 }
 
-.content-first-column {
+.products-list {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -164,6 +164,7 @@ figcaption {
     min-width: 300px;
     height: 100%;
     margin-left: 5px;
+    padding-left: 0;
 }
 
 .product-card {
