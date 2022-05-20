@@ -1,3 +1,16 @@
+// Algumas linhas de código estão comentadas porque estou tentando reformular
+// a parte do carrinho, assim como adicionar a parte de filtragem de produtos
+// pelas categorias e pela pesquisa. 
+// Não estou gerando um array com os produtos que são adicionados ao carrinho,
+// porém acredito que essa é a melhor forma e estou tentando implementá-la.
+// Como preciso enviar até às 23:59 de hj (19/05), estou enviando o código como
+// está, porém estou tentando organizá-lo para facilitar a leitura. Se eu 
+// conseguir organizar eu reenvio até o hoário limite. 
+// Por fim, todo feedback e dicas de identação e organização de código serão
+// MUITO bem vindas!
+
+
+
 // Banco de dados dos produtos
 
 const data = [
@@ -7,7 +20,7 @@ const data = [
         nameItem: "Lightweight Jacket",
         description:
             "Adicione um pouco de energia ao seu guarda-roupa de inverno com esta jaqueta vibrante...",
-        value: 100,
+        value: 149,
         addCart: "Adicionar ao carrinho",
         tag: ["Camisetas"],
     },
@@ -17,7 +30,7 @@ const data = [
         nameItem: "Black Hat",
         description:
             "O gorro Next.js chegou! Esta beldade bordada tem um ajuste confortável que garante que...",
-        value: 100,
+        value: 60,
         addCart: "Adicionar ao carrinho",
         tag: ["Acessórios"],
     },
@@ -27,7 +40,7 @@ const data = [
         nameItem: "Mask",
         description:
             "Esta máscara facial durável é feita de duas camadas de tecido tratado e possui presilhas...",
-        value: 40,
+        value: 29.99,
         addCart: "Adicionar ao carrinho",
         tag: ["Acessórios"],
     },
@@ -37,7 +50,7 @@ const data = [
         nameItem: "T-Shirt",
         description:
             "Esta t-shirt é imprescindível no seu guarda-roupa, combinando o caimento intemporal de...",
-        value: 100,
+        value: 80,
         addCart: "Adicionar ao carrinho",
         tag: ["Camisetas"],
     },
@@ -47,7 +60,7 @@ const data = [
         nameItem: "Short-Sleeve T-Shirt",
         description:
             "Agora você encontrou a camiseta básica do seu guarda-roupa. É feito de um mais grosso...",
-        value: 100,
+        value: 80,
         addCart: "Adicionar ao carrinho",
         tag: ["Camisetas"],
     },
@@ -57,11 +70,19 @@ const data = [
         nameItem: "Champion Packable Jacket",
         description:
             "Proteja-se dos elementos com esta jaqueta embalável Champion. Esta jaqueta de poliést...",
-        value: 100,
+        value: 149,
         addCart: "Adicionar ao carrinho",
         tag: ["Camisetas"],
     },
 ];
+
+/* let filteredAcessories = [];
+
+let filteredShoes = [];
+
+let filteredShirts = [];
+
+let filteredAll = []; */
 
 let itemsAddedToCart = [];
 
@@ -69,6 +90,154 @@ let total = 0;
 
 let quantity = 0;
 
+
+/* function filterByAcessories(data) {
+
+    for (let i = 0; i < data.length; i++) {
+
+        if (i === 0) {
+            filteredAcessories = [];
+        }
+        if (data[i].tag[0] === "Acessórios") {
+
+            filteredAcessories.push(data[i]);
+
+        }
+
+    }
+    if (filteredAcessories.length === 0)
+        return "Não há itens nesta categoria.";
+    else
+        return filteredAcessories;
+
+}
+
+function filterByShoes(data) {
+
+    for (let i = 0; i < data.length; i++) {
+
+        if (i === 0) {
+            filteredShoes = [];
+        }
+        if (data[i].tag[0] === "Calçados") {
+
+            filteredShoes.push(data[i]);
+
+        }
+
+    }
+    if (filteredShoes.length === 0)
+        return "Não há itens nesta categoria.";
+    else
+        return filteredShoes;
+
+}
+
+function filterByShirts(data) {
+
+    for (let i = 0; i < data.length; i++) {
+
+        if (i === 0) {
+            filteredShirts = [];
+        }
+        if (data[i].tag[0] === "Camisetas") {
+
+            filteredShirts.push(data[i]);
+
+        }
+
+    }
+    if (filteredShirts.length === 0)
+        return "Não há itens nesta categoria.";
+    else
+        return filteredShirts;
+
+}
+
+
+function filterByCategory(data, acessories, shirts, shoes) {
+
+    let allProducts = document.querySelector(".all");
+
+    allProducts.addEventListener("click", function() {
+
+        filteredAcessories = data;
+
+    });
+    
+
+    let accessoriesProducts = document.querySelector(".accessories");
+
+    accessoriesProducts.addEventListener("click", function () {
+
+        console.log("Acessórios");
+
+        for (let i = 0; i < data.length; i++) {
+
+            if (i === 0) {
+
+                filteredAcessories = [];
+                
+            }
+
+            if (data[i].tag[0] === "Acessórios") {
+
+                filteredAcessories.push(data[i]);
+
+            }
+
+        }
+        console.log(filteredAcessories);
+        return [filteredAcessories];
+    });
+
+    let shoesProducts = document.querySelector(".shoes");
+
+    shoesProducts.addEventListener("click", function () {
+
+        console.log("Calçados");
+
+        for (let i = 0; i < data.length; i++) {
+
+            if (i === 0) {
+                filteredShoes = [];
+            }
+
+            if (data[i].tag[0] === "Calçados") {
+
+                filteredShoes.push(data[i]);
+
+            }
+
+        }
+        console.log(filteredShoes);
+        return [filteredShoes];
+    });
+
+    let shirt = document.querySelector(".shirt");
+
+    shirt.addEventListener("click", function () {
+
+        console.log("Camisetas");
+
+        for (let i = 0; i < data.length; i++) {
+
+            if (i === 0) {
+                filteredShirts = [];
+            }
+
+            if (data[i].tag[0] === "Camisetas") {
+
+                filteredShirts.push(data[i]);
+
+            }
+
+        }
+        console.log(filteredShirts);
+        return [filteredShirts];
+    });
+
+} */
 
 function addProducsToShowcase(data) {
 
@@ -183,6 +352,7 @@ function createProductCard(data, li, i) {
 
     button.addEventListener('click', function () {
 
+        // event.target
 
         itemsAddedToCart.push(data[i]);
 
@@ -190,9 +360,9 @@ function createProductCard(data, li, i) {
 
         quantity++;
 
-        console.log(total);
+        // console.log(total);
 
-        console.log(quantity);
+        // console.log(quantity);
 
 
         let totalQuantity = document.querySelector(".total-quantity")
@@ -213,7 +383,7 @@ function createProductCard(data, li, i) {
 
 }
 
-function emptyCart() {
+/* function emptyCart() {
 
     let cartItems = document.querySelector(".cart-items");
 
@@ -234,7 +404,7 @@ function emptyCart() {
 
     addItems.innerText = "Adicione itens";
 
-}
+} */
 
 function createCart() {
 
@@ -303,7 +473,7 @@ function createCart() {
 
     divTotalPrice.classList.add("div-total-price");
 
-    
+
     let totalPriceTitle = document.createElement("h3");
 
     totalPriceTitle.classList.add("total-price-title");
@@ -400,16 +570,16 @@ function addItemsToCart(itemAdded) {
 
     productDescription.appendChild(removeProduct);
 
-    removeProduct.addEventListener("click", function() {
+    removeProduct.addEventListener("click", function () {
 
         quantity--;
-        
+
         total -= itemAdded.value;
 
 
-        console.log(quantity);
+        // console.log(quantity);
 
-        console.log(total);
+        // console.log(total);
 
         let totalQuantity = document.querySelector(".total-quantity")
 
@@ -425,13 +595,13 @@ function addItemsToCart(itemAdded) {
     });
 }
 
-function general(data, itemsAddedToCart) {
+function general(data) {
 
     addProducsToShowcase(data);
 
     createCart();
-    
+
 }
 
-general(data, itemsAddedToCart);
+general(data);
 
