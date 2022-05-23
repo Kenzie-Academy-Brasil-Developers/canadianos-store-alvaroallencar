@@ -1,502 +1,532 @@
-// Algumas linhas de código estão comentadas porque estou tentando reformular
-// a parte do carrinho, assim como adicionar a parte de filtragem de produtos
-// pelas categorias e pela pesquisa. 
-// Não estou gerando um array com os produtos que são adicionados ao carrinho,
-// porém acredito que essa é a melhor forma e estou tentando implementá-la.
-// Como preciso enviar até às 23:59 de hj (19/05), estou enviando o código como
-// está, porém estou tentando organizá-lo para facilitar a leitura. Se eu 
-// conseguir organizar eu reenvio até o hoário limite. 
-// Por fim, todo feedback e dicas de identação e organização de código serão
-// MUITO bem vindas!
-
-
-
-// Banco de dados dos produtos
+// Array de objetos contendo os produtos:
 
 const data = [
-    {
-        id: 1,
-        img: "./img/jaqueta.svg",
-        nameItem: "Lightweight Jacket",
-        description:
-            "Adicione um pouco de energia ao seu guarda-roupa de inverno com esta jaqueta vibrante...",
-        value: 149,
-        addCart: "Adicionar ao carrinho",
-        tag: ["Camisetas"],
-    },
-    {
-        id: 2,
-        img: "./img/gorro.svg",
-        nameItem: "Black Hat",
-        description:
-            "O gorro Next.js chegou! Esta beldade bordada tem um ajuste confortável que garante que...",
-        value: 60,
-        addCart: "Adicionar ao carrinho",
-        tag: ["Acessórios"],
-    },
-    {
-        id: 3,
-        img: "./img/mascara.svg",
-        nameItem: "Mask",
-        description:
-            "Esta máscara facial durável é feita de duas camadas de tecido tratado e possui presilhas...",
-        value: 29.99,
-        addCart: "Adicionar ao carrinho",
-        tag: ["Acessórios"],
-    },
-    {
-        id: 4,
-        img: "./img/camiseta_preta.svg",
-        nameItem: "T-Shirt",
-        description:
-            "Esta t-shirt é imprescindível no seu guarda-roupa, combinando o caimento intemporal de...",
-        value: 80,
-        addCart: "Adicionar ao carrinho",
-        tag: ["Camisetas"],
-    },
-    {
-        id: 5,
-        img: "./img/camiseta_branca.svg",
-        nameItem: "Short-Sleeve T-Shirt",
-        description:
-            "Agora você encontrou a camiseta básica do seu guarda-roupa. É feito de um mais grosso...",
-        value: 80,
-        addCart: "Adicionar ao carrinho",
-        tag: ["Camisetas"],
-    },
-    {
-        id: 6,
-        img: "./img/moletom.svg",
-        nameItem: "Champion Packable Jacket",
-        description:
-            "Proteja-se dos elementos com esta jaqueta embalável Champion. Esta jaqueta de poliést...",
-        value: 149,
-        addCart: "Adicionar ao carrinho",
-        tag: ["Camisetas"],
-    },
+  {
+    id: 1,
+    img: "./img/jaqueta.svg",
+    nameItem: "Lightweight Jacket",
+    description:
+      "Adicione um pouco de energia ao seu guarda-roupa de inverno com esta jaqueta vibrante...",
+    value: 149.90,
+    addCart: "Adicionar ao carrinho",
+    tag: ["Camisetas"],
+  },
+  {
+    id: 2,
+    img: "./img/gorro.svg",
+    nameItem: "Black Hat",
+    description:
+      "O gorro Next.js chegou! Esta beldade bordada tem um ajuste confortável que garante que...",
+    value: 59.90,
+    addCart: "Adicionar ao carrinho",
+    tag: ["Acessórios"],
+  },
+  {
+    id: 3,
+    img: "./img/mascara.svg",
+    nameItem: "Mask",
+    description:
+      "Esta máscara facial durável é feita de duas camadas de tecido tratado e possui presilhas...",
+    value: 29.90,
+    addCart: "Adicionar ao carrinho",
+    tag: ["Acessórios"],
+  },
+  {
+    id: 4,
+    img: "./img/camiseta_preta.svg",
+    nameItem: "T-Shirt",
+    description:
+      "Esta t-shirt é imprescindível no seu guarda-roupa, combinando o caimento intemporal de...",
+    value: 79.90,
+    addCart: "Adicionar ao carrinho",
+    tag: ["Camisetas"],
+  },
+  {
+    id: 5,
+    img: "./img/camiseta_branca.svg",
+    nameItem: "Short-Sleeve T-Shirt",
+    description:
+      "Agora você encontrou a camiseta básica do seu guarda-roupa. É feito de um mais grosso...",
+    value: 79.90,
+    addCart: "Adicionar ao carrinho",
+    tag: ["Camisetas"],
+  },
+  {
+    id: 6,
+    img: "./img/moletom.svg",
+    nameItem: "Champion Packable Jacket",
+    description:
+      "Proteja-se dos elementos com esta jaqueta embalável Champion. Esta jaqueta de poliést...",
+    value: 149.90,
+    addCart: "Adicionar ao carrinho",
+    tag: ["Camisetas"],
+  },
+  {
+    id: 7,
+    img: "./img/sapato-social-masculino.jpg",
+    nameItem: "Sapato Social Masculino",
+    description:
+      "Feito de couro, este é o sapato ideal para compor seu look...",
+    value: 199.90,
+    addCart: "Adicionar ao carrinho",
+    tag: ["Calçados"],
+  },
+  {
+    id: 8,
+    img: "./img/tenis-masculino-preto.jpg",
+    nameItem: "Tênis Masculino",
+    description:
+      "Tênis masculino estiloso ideal para corrida e academia...",
+    value: 199.90,
+    addCart: "Adicionar ao carrinho",
+    tag: ["Calçados"],
+  },
 ];
 
-/* let filteredAcessories = [];
-
-let filteredShoes = [];
-
-let filteredShirts = [];
-
-let filteredAll = []; */
+// Array de objetos contendo os produtos que compõem o carrinho de compras:
 
 let itemsAddedToCart = [];
+
+// Variáveis globais que recebem o valor total e quantidade dos produtos 
+// adicionados ao carrinho:
 
 let total = 0;
 
 let quantity = 0;
 
 
-/* function filterByAcessories(data) {
+// Função geral que inicia a lógica e adição dinâmica de produtos:
 
-    for (let i = 0; i < data.length; i++) {
+function general(data) {
 
-        if (i === 0) {
-            filteredAcessories = [];
-        }
-        if (data[i].tag[0] === "Acessórios") {
+  search(data);
 
-            filteredAcessories.push(data[i]);
+  addingEventToCategoryButtons(data);
 
-        }
+  createCart();
 
-    }
-    if (filteredAcessories.length === 0)
-        return "Não há itens nesta categoria.";
-    else
-        return filteredAcessories;
+  addProducsToShowcase(data);
 
 }
 
-function filterByShoes(data) {
+function search(data) {
+
+  let userInputButton = document.querySelector(".search-button");
+
+  userInputButton.addEventListener("click", function (event) {
+
+    event.preventDefault();
+
+    let searchInput = document.querySelector(".search-input");
+
+    let searchInputValue = searchInput.value.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+
+    console.log(searchInputValue);
+
+    let filteredSearch = [];
 
     for (let i = 0; i < data.length; i++) {
 
-        if (i === 0) {
-            filteredShoes = [];
-        }
-        if (data[i].tag[0] === "Calçados") {
+      if (data[i].nameItem.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "").includes(searchInputValue) === true ||
+        data[i].nameItem.toLowerCase().includes(searchInputValue) === true ||
+        data[i].description.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "").includes(searchInputValue) === true ||
+        data[i].description.toLowerCase().includes(searchInputValue) === true ||
+        data[i].tag[0].toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "").includes(searchInputValue) === true ||
+        data[i].tag[0].toLowerCase().includes(searchInputValue) === true) {
 
-            filteredShoes.push(data[i]);
+        console.log(filteredSearch);
 
-        }
+        filteredSearch.push(data[i]);
 
+      }
+
+      addProducsToShowcase(filteredSearch);
+      
     }
-    if (filteredShoes.length === 0)
-        return "Não há itens nesta categoria.";
-    else
-        return filteredShoes;
+
+  });
 
 }
 
-function filterByShirts(data) {
+function addingEventToCategoryButtons(data) {
+
+  let all = document.querySelector(".all");
+
+  all.addEventListener("click", function () {
+
+    console.log(data);
+
+    addProducsToShowcase(data);
+
+  });
+
+  let accessories = document.querySelector(".accessories");
+
+  accessories.addEventListener("click", function () {
+
+    let filteredAcessories = [];
 
     for (let i = 0; i < data.length; i++) {
 
-        if (i === 0) {
-            filteredShirts = [];
-        }
-        if (data[i].tag[0] === "Camisetas") {
+      if (data[i].tag[0] === "Acessórios") {
 
-            filteredShirts.push(data[i]);
+        filteredAcessories.push(data[i]);
 
-        }
+      }
 
     }
-    if (filteredShirts.length === 0)
-        return "Não há itens nesta categoria.";
-    else
-        return filteredShirts;
+
+    console.log(filteredAcessories);
+
+    addProducsToShowcase(filteredAcessories);
+
+  });
+
+  let shoes = document.querySelector(".shoes");
+
+  shoes.addEventListener("click", function () {
+
+    let filteredShoes = [];
+
+    for (let i = 0; i < data.length; i++) {
+
+      if (data[i].tag[0] === "Calçados") {
+
+        filteredShoes.push(data[i]);
+
+      }
+
+    }
+
+    console.log(filteredShoes);
+
+    addProducsToShowcase(filteredShoes);
+
+  });
+
+  let shirt = document.querySelector(".shirt");
+
+  shirt.addEventListener("click", function () {
+
+    let filteredShirts = [];
+
+    for (let i = 0; i < data.length; i++) {
+
+      if (data[i].tag[0] === "Camisetas") {
+
+        filteredShirts.push(data[i]);
+
+      }
+
+    }
+
+    console.log(filteredShirts);
+
+    addProducsToShowcase(filteredShirts);
+
+  });
 
 }
 
+// Chamando a função general e passando o array com os produtos:
 
-function filterByCategory(data, acessories, shirts, shoes) {
+general(data);
 
-    let allProducts = document.querySelector(".all");
+// Adiciona os produtos do array de objetos 'data' a vitrine:
 
-    allProducts.addEventListener("click", function() {
+function addProducsToShowcase(database) {
 
-        filteredAcessories = data;
+  let contentFirstColumn = document.querySelector(".content-first-column");
 
-    });
-    
+  contentFirstColumn.innerText = "";
 
-    let accessoriesProducts = document.querySelector(".accessories");
+  let ulProducts = document.createElement("ul");
 
-    accessoriesProducts.addEventListener("click", function () {
+  ulProducts.classList.add("products-list");
 
-        console.log("Acessórios");
+  contentFirstColumn.appendChild(ulProducts);
 
-        for (let i = 0; i < data.length; i++) {
+  // Percorre o array de objetos com os produtos e pra cada um deles cria 
+  // uma <li>:
 
-            if (i === 0) {
+  for (let i = 0; i < database.length; i++) {
 
-                filteredAcessories = [];
-                
-            }
+    let li = document.createElement("li");
 
-            if (data[i].tag[0] === "Acessórios") {
+    li.classList.add("product-card");
 
-                filteredAcessories.push(data[i]);
+    ulProducts.appendChild(li);
 
-            }
+    // Chama a função para criar o card do produto passando o <li> recém criado,
+    // a posição do índice 'i' e o array de objetos com os produtos:
 
-        }
-        console.log(filteredAcessories);
-        return [filteredAcessories];
-    });
+    createProductCard(database, li, i);
+  }
 
-    let shoesProducts = document.querySelector(".shoes");
-
-    shoesProducts.addEventListener("click", function () {
-
-        console.log("Calçados");
-
-        for (let i = 0; i < data.length; i++) {
-
-            if (i === 0) {
-                filteredShoes = [];
-            }
-
-            if (data[i].tag[0] === "Calçados") {
-
-                filteredShoes.push(data[i]);
-
-            }
-
-        }
-        console.log(filteredShoes);
-        return [filteredShoes];
-    });
-
-    let shirt = document.querySelector(".shirt");
-
-    shirt.addEventListener("click", function () {
-
-        console.log("Camisetas");
-
-        for (let i = 0; i < data.length; i++) {
-
-            if (i === 0) {
-                filteredShirts = [];
-            }
-
-            if (data[i].tag[0] === "Camisetas") {
-
-                filteredShirts.push(data[i]);
-
-            }
-
-        }
-        console.log(filteredShirts);
-        return [filteredShirts];
-    });
-
-} */
-
-function addProducsToShowcase(data) {
+  if (database.length === 0) {
 
     let contentFirstColumn = document.querySelector(".content-first-column");
 
-    let ulProducts = document.createElement("ul");
+    let emptySearch = document.createElement("h2");
 
-    ulProducts.classList.add("products-list");
+    emptySearch.classList.add("empty-search");
 
-    contentFirstColumn.appendChild(ulProducts);
+    emptySearch.innerText = "Nada por aqui :(";
 
-    for (let i = 0; i < data.length; i++) {
+    contentFirstColumn.appendChild(emptySearch);
 
-        let li = document.createElement("li");
-
-        li.classList.add("product-card");
-
-        ulProducts.appendChild(li);
-
-        createProductCard(data, li, i);
-    }
+  }
 
 }
 
-function createProductCard(data, li, i) {
+function createProductCard(database, li, i) {
 
-    let figBox = document.createElement("div");
+  let figBox = document.createElement("div");
 
-    figBox.classList.add("fig-box");
+  figBox.classList.add("fig-box");
 
-    li.appendChild(figBox);
+  li.appendChild(figBox);
 
 
-    let figure = document.createElement("figure");
+  let figure = document.createElement("figure");
 
-    figure.classList.add("figure");
+  figure.classList.add("figure");
 
-    figBox.appendChild(figure);
+  figBox.appendChild(figure);
 
 
-    let img = document.createElement("img");
+  let img = document.createElement("img");
 
-    img.classList.add("product-image");
+  img.classList.add("product-image");
 
-    figure.appendChild(img);
+  figure.appendChild(img);
 
-    img.setAttribute("src", data[i].img);
+  img.setAttribute("src", database[i].img);
 
-    img.setAttribute("alt", data[i].nameItem);
+  img.setAttribute("alt", database[i].nameItem);
 
 
-    let figcaption = document.createElement("figcaption");
+  let figcaption = document.createElement("figcaption");
 
-    figcaption.classList.add("figcaption");
+  figcaption.classList.add("figcaption");
 
-    figure.appendChild(figcaption);
+  figure.appendChild(figcaption);
 
 
-    let productDescription = document.createElement("div");
+  let productDescription = document.createElement("div");
 
-    productDescription.classList.add("product-description");
+  productDescription.classList.add("product-description");
 
-    li.appendChild(productDescription);
+  li.appendChild(productDescription);
 
 
-    let h2 = document.createElement("h2");
+  let h2 = document.createElement("h2");
 
-    h2.classList.add("product-category");
+  h2.classList.add("product-category");
 
-    productDescription.appendChild(h2);
+  productDescription.appendChild(h2);
 
-    h2.innerText = data[i].tag[0];
+  h2.innerText = database[i].tag[0];
 
 
-    let h3 = document.createElement("h3");
+  let h3 = document.createElement("h3");
 
-    h3.classList.add("product-name");
+  h3.classList.add("product-name");
 
-    productDescription.appendChild(h3);
+  productDescription.appendChild(h3);
 
-    h3.innerText = data[i].nameItem;
+  h3.innerText = database[i].nameItem;
 
 
-    let p = document.createElement("p");
+  let p = document.createElement("p");
 
-    p.classList.add("product-resume");
+  p.classList.add("product-resume");
 
-    productDescription.appendChild(p);
+  productDescription.appendChild(p);
 
-    p.innerText = data[i].description;
+  p.innerText = database[i].description;
 
 
-    let h4 = document.createElement("h4");
+  let h4 = document.createElement("h4");
 
-    h4.classList.add("product-price");
+  h4.classList.add("product-price");
 
-    productDescription.appendChild(h4);
+  productDescription.appendChild(h4);
 
-    h4.innerText = `R$ ${data[i].value.toFixed(2)}`;
+  h4.innerText = `R$ ${database[i].value.toFixed(2)}`;
 
 
-    let button = document.createElement("button");
+  let button = document.createElement("button");
 
-    button.classList.add("add-to-cart-button", "add-to-cart");
+  button.classList.add("add-to-cart-button");
 
-    productDescription.appendChild(button);
+  productDescription.appendChild(button);
 
-    button.setAttribute("id", data[i].id);
+  button.setAttribute("id", database[i].id);
 
-    button.innerText = data[i].addCart;
+  button.innerText = database[i].addCart;
 
+  // Adiciona um evento para cada botão de adicionar ao carrinho:
 
-    button.addEventListener('click', function () {
+  button.addEventListener('click', function () {
 
-        // event.target
+    // Adiciona o produto ao array de objetos itemsAddedToCart:
 
-        itemsAddedToCart.push(data[i]);
+    itemsAddedToCart.push(database[i]);
 
-        total += data[i].value;
+    console.log(itemsAddedToCart);
 
-        quantity++;
+    // Chama a função que atualiza o valor total e quantidade:
 
-        // console.log(total);
+    addItemsToCart(itemsAddedToCart);
 
-        // console.log(quantity);
+    updateTotalAndQuantity(itemsAddedToCart);
 
 
-        let totalQuantity = document.querySelector(".total-quantity")
-
-        totalQuantity.innerText = quantity;
-
-
-        let totalPrice = document.querySelector(".total-price");
-
-        totalPrice.innerText = `R$ ${total.toFixed(2)}`;
-
-
-        let itemAdded = itemsAddedToCart[itemsAddedToCart.length - 1];
-
-        addItemsToCart(itemAdded);
-
-    });
+  });
 
 }
-
-/* function emptyCart() {
-
-    let cartItems = document.querySelector(".cart-items");
-
-    let emptyCart = document.createElement("h3");
-
-    emptyCart.classList.add("empty-cart");
-
-    cartItems.appendChild(emptyCart);
-
-    emptyCart.innerText = "Carrinho vazio";
-
-
-    let addItems = document.createElement("h4");
-
-    addItems.classList.add("add-items");
-
-    cartItems.appendChild(addItems);
-
-    addItems.innerText = "Adicione itens";
-
-} */
 
 function createCart() {
 
-    let contentSecondColumn = document.querySelector(".content-second-column");
+  let contentSecondColumn = document.querySelector(".content-second-column");
 
-    let cart = document.createElement("div");
+  let cart = document.createElement("div");
 
-    cart.classList.add("cart")
+  cart.classList.add("cart")
 
-    contentSecondColumn.appendChild(cart);
-
-
-    let CartTitle = document.createElement("h3");
-
-    CartTitle.classList.add("cart-title");
-
-    cart.appendChild(CartTitle);
-
-    CartTitle.innerText = "Carrinho de Compras";
+  contentSecondColumn.appendChild(cart);
 
 
-    let cartItems = document.createElement("div");
+  let CartTitle = document.createElement("h3");
 
-    cartItems.classList.add("cart-items");
+  CartTitle.classList.add("cart-title");
 
-    cart.appendChild(cartItems);
+  cart.appendChild(CartTitle);
 
-
-
-    let cartSummary = document.createElement("div");
-
-    cartSummary.classList.add("cart-summary");
-
-    cart.appendChild(cartSummary);
+  CartTitle.innerText = "Carrinho de Compras";
 
 
-    let divTotalQuantity = document.createElement("div");
+  let cartItems = document.createElement("div");
 
-    cartSummary.appendChild(divTotalQuantity);
+  cartItems.classList.add("cart-items");
 
-    divTotalQuantity.classList.add("div-total-quantity");
-
-
-    let totalQuantityTitle = document.createElement("h3");
-
-    totalQuantityTitle.classList.add("total-quantity-title");
-
-    divTotalQuantity.appendChild(totalQuantityTitle);
-
-    totalQuantityTitle.innerText = "Quantidade:";
-
-
-    let totalQuantity = document.createElement("h3");
-
-    totalQuantity.classList.add("total-quantity");
-
-    divTotalQuantity.appendChild(totalQuantity);
-
-    totalQuantity.innerText = quantity;
+  cart.appendChild(cartItems);
 
 
 
-    let divTotalPrice = document.createElement("div");
+  let cartSummary = document.createElement("div");
 
-    cartSummary.appendChild(divTotalPrice);
+  cartSummary.classList.add("cart-summary");
 
-    divTotalPrice.classList.add("div-total-price");
-
-
-    let totalPriceTitle = document.createElement("h3");
-
-    totalPriceTitle.classList.add("total-price-title");
-
-    divTotalPrice.appendChild(totalPriceTitle);
-
-    totalPriceTitle.innerText = "Total:";
+  cart.appendChild(cartSummary);
 
 
-    let totalPrice = document.createElement("h3");
+  let divTotalQuantity = document.createElement("div");
 
-    totalPrice.classList.add("total-price");
+  cartSummary.appendChild(divTotalQuantity);
 
-    divTotalPrice.appendChild(totalPrice);
+  divTotalQuantity.classList.add("div-total-quantity");
 
-    totalPrice.innerText = `R$ ${total.toFixed(2)}`;
+
+  let totalQuantityTitle = document.createElement("h3");
+
+  totalQuantityTitle.classList.add("total-quantity-title");
+
+  divTotalQuantity.appendChild(totalQuantityTitle);
+
+  totalQuantityTitle.innerText = "Quantidade:";
+
+
+  let totalQuantity = document.createElement("h3");
+
+  totalQuantity.classList.add("total-quantity");
+
+  divTotalQuantity.appendChild(totalQuantity);
+
+  totalQuantity.innerText = quantity;
+
+
+
+  let divTotalPrice = document.createElement("div");
+
+  cartSummary.appendChild(divTotalPrice);
+
+  divTotalPrice.classList.add("div-total-price");
+
+
+  let totalPriceTitle = document.createElement("h3");
+
+  totalPriceTitle.classList.add("total-price-title");
+
+  divTotalPrice.appendChild(totalPriceTitle);
+
+  totalPriceTitle.innerText = "Total:";
+
+
+  let totalPrice = document.createElement("h3");
+
+  totalPrice.classList.add("total-price");
+
+  divTotalPrice.appendChild(totalPrice);
+
+  totalPrice.innerText = `R$ ${total.toFixed(2)}`;
 
 }
 
-function addItemsToCart(itemAdded) {
+function updateTotalAndQuantity(itemsAddedToCart) {
+
+  // Variáveis que recebem o valor total e quantidade dos produtos 
+  // adicionados ao carrinho:
+
+  total = 0;
+
+  quantity = 0;
+
+  // Percorre todos os produtos dentro do array e atualiza as variáveis 
+  // total e quantity:
+
+  for (let i = 0; i < itemsAddedToCart.length; i++) {
+
+    total += itemsAddedToCart[i].value;
+
+    quantity = itemsAddedToCart.length;
+
+  }
+
+  console.log(total);
+
+  console.log(quantity);
+
+  let totalQuantity = document.querySelector(".total-quantity");
+
+  totalQuantity.innerText = quantity;
 
 
-    let cartItems = document.querySelector(".cart-items");
+  let totalPrice = document.querySelector(".total-price");
+
+  totalPrice.innerText = `R$ ${total.toFixed(2)}`;
+
+}
+
+function addItemsToCart(itemsAddedToCart) {
+
+  let cartItems = document.querySelector(".cart-items");
+
+  createRemoveButton(cartItems, itemsAddedToCart);
+
+}
+
+function createRemoveButton(cartItems, itemsAddedToCart) {
+
+
+  cartItems.innerText = "";
+
+
+  for (let i = 0; i < itemsAddedToCart.length; i++) {
+
+
+    itemsAddedToCart[i].cartID = i;
 
     let productAdded = document.createElement("div");
 
@@ -525,9 +555,9 @@ function addItemsToCart(itemAdded) {
 
     figure.appendChild(img);
 
-    img.setAttribute("src", itemAdded.img);
+    img.setAttribute("src", itemsAddedToCart[i].img);
 
-    img.setAttribute("alt", itemAdded.nameItem);
+    img.setAttribute("alt", itemsAddedToCart[i].nameItem);
 
 
     let figcaption = document.createElement("figcaption");
@@ -548,7 +578,7 @@ function addItemsToCart(itemAdded) {
 
     productName.classList.add("product-name-in-cart");
 
-    productName.innerText = itemAdded.nameItem;
+    productName.innerText = itemsAddedToCart[i].nameItem;
 
     productDescription.appendChild(productName);
 
@@ -557,51 +587,66 @@ function addItemsToCart(itemAdded) {
 
     productPrice.classList.add("product-price-in-cart");
 
-    productPrice.innerText = `R$ ${itemAdded.value.toFixed(2)}`;
+    productPrice.innerText = `R$ ${itemsAddedToCart[i].value.toFixed(2)}`;
 
     productDescription.appendChild(productPrice);
 
 
     let removeProduct = document.createElement("button");
 
-    removeProduct.classList.add("remove-product-in-cart");
+    removeProduct.classList.add("remove-product-in-cart", `${itemsAddedToCart[i].id}`);
+
+    removeProduct.setAttribute("id", `${i}`);
 
     removeProduct.innerText = "Remover produto";
 
     productDescription.appendChild(removeProduct);
 
+
+
     removeProduct.addEventListener("click", function () {
 
-        quantity--;
+      console.log("Botão remover produto clicado");
 
-        total -= itemAdded.value;
+      //console.log(itemsAddedToCart[itemsAddedToCart.length - 1].id);
 
+      //let updatedCart = itemsAddedToCart;
 
-        // console.log(quantity);
+      //let id = document.getElementsByClassName(i);
 
-        // console.log(total);
-
-        let totalQuantity = document.querySelector(".total-quantity")
-
-        totalQuantity.innerText = quantity;
+      console.log(`Removendo item com id: ${itemsAddedToCart[i].cartID}`);
 
 
-        let totalPrice = document.querySelector(".total-price");
+      itemsAddedToCart = removeProductFromCart(itemsAddedToCart, itemsAddedToCart[i].cartID);
 
-        totalPrice.innerText = `R$ ${total.toFixed(2)}`;
+      //console.log("Removido 1 item");
 
-        productAdded.remove();
+      addItemsToCart(itemsAddedToCart);
+
+      updateTotalAndQuantity(itemsAddedToCart);
+
+      //productAdded.remove();
 
     });
-}
 
-function general(data) {
-
-    addProducsToShowcase(data);
-
-    createCart();
+  }
 
 }
 
-general(data);
+function removeProductFromCart(updatedCart, idToRemove) {
 
+  for (let i = 0; i < updatedCart.length; i++) {
+
+    if (idToRemove === i) {
+
+      updatedCart.splice(i, 1);
+
+      console.log("Removido 1 item");
+
+    }
+
+  }
+
+  return updatedCart;
+
+}
